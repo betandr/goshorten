@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestHandlerOK(t *testing.T) {
+func TestHandlerNotImplemented(t *testing.T) {
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -17,7 +17,7 @@ func TestHandlerOK(t *testing.T) {
 
 	hnd.ServeHTTP(rec, req)
 
-	if status := rec.Code; status != http.StatusOK {
-		t.Errorf("incorrect status code: got %v want %v", status, http.StatusOK)
+	if status := rec.Code; status != http.StatusNotImplemented {
+		t.Errorf("incorrect status code: got %v want %v", status, http.StatusNotImplemented)
 	}
 }

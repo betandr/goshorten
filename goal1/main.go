@@ -12,6 +12,6 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "OK")
+	w.WriteHeader(http.StatusNotImplemented)
+	fmt.Fprintf(w, "NOT IMPLEMENTED")
 }
