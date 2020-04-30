@@ -29,8 +29,8 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "OK")
+		w.WriteHeader(http.StatusNotImplemented)
+		fmt.Fprintf(w, "NOT IMPLEMENTED")
 
 	case "POST":
 		jsonBody := json.NewDecoder(r.Body)
