@@ -1,4 +1,4 @@
-# Go URL Shortener
+# Go Workshop - URL Shortener
 
 ## Environment
 To install the Go tools you should be able to run `brew install go`. For more in-depth instructions see [Install the Go tools](https://golang.org/doc/install#install)
