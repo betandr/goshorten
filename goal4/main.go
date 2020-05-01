@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 var serverURL = "http://localhost:8080/"
 
-var database map[string]int
+var lookup map[string]int = make(map[string]int)
+var redirect map[int]string = make(map[int]string)
 
 // EncodeRequest represents a request to encode
 type EncodeRequest struct {
@@ -29,8 +32,20 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		w.WriteHeader(http.StatusNotImplemented)
-		fmt.Fprintf(w, "NOT IMPLEMENTED")
+		uriParts := strings.Split(r.URL.String(), "/")
+
+		i, err := strconv.Atoi(uriParts[len(uriParts)-1])
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
+		if to, ok := redirect[i]; ok {
+			http.Redirect(w, r, to, http.StatusMovedPermanently)
+			return
+		}
+
+		w.WriteHeader(http.StatusNotFound)
 
 	case "POST":
 		jsonBody := json.NewDecoder(r.Body)
@@ -61,15 +76,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func encodeURL(URL string) string {
-	if database == nil {
-		database = make(map[string]int)
-	}
-
-	if val, ok := database[URL]; ok {
+	if val, ok := lookup[URL]; ok {
 		return fmt.Sprintf("%s%d", serverURL, val)
 	}
 
-	nextInt := len(database) + 1
-	database[URL] = nextInt
-	return fmt.Sprintf("%s%d", serverURL, nextInt)
+	nextInt := len(lookup) + 1
+	lookup[URL] = nextInt
+	shortURL := fmt.Sprintf("%s%d", serverURL, nextInt)
+	redirect[nextInt] = URL
+	return shortURL
 }

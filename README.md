@@ -1,8 +1,11 @@
 # Go URL Shortener
 
+## Environment
+To install the Go tools you should be able to run `brew install go`. For more in-depth instructions see [Install the Go tools](https://golang.org/doc/install#install)
+
 ## Goals
-1. Accept HTTP connections and return 200/OK 
-2. Accept JSON containing a URL and parse:
+1. Accept `HTTP:GET` to "/" and return 501/Not Implemented 
+2. Accept `HTTP:PUT` to "/" containing JSON with a URL and parse:
 ```
 { 
     "URL": "https://www.bbc.co.uk/iplayer" 
@@ -14,14 +17,13 @@
     "ShortURL": "http://localhost:8080/1" 
 }
 ```
-4. Avoid generating short URLs for duplicate URLs
-5. Accept a shortened URL and redirect to correct URL
+4. Accept HTTP:GET to "/1" and redirect to correct URL
 
 Stretch goals:
-1. Store key/values in a local JSON database
-2. Count times the URL has been decoded
-3. Delete URL from local database
-4. Make the encoded URL "cryptographically secure"
+1. Count times the URL has been decoded
+2. Delete URL from local database
+3. Store key/values in a local JSON database
+4. Make the encoded URL "cryptographically secure" while still short
 
 ## Running
 
